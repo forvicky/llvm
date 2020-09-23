@@ -7,6 +7,8 @@
 
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
+#include "llvm/Transforms/EncodeFunctionName/EncodeFunctionName.h"
+
 
 using namespace llvm;
 
@@ -44,7 +46,7 @@ static RegisterPass<EncodeFunctionName> X("encode", "Encode Function Name Pass",
                              false /* Only looks at CFG */,
                              false /* Analysis Pass */);
 
-static RegisterStandardPasses Y(
-    PassManagerBuilder::EP_EarlyAsPossible,
-    [](const PassManagerBuilder &Builder,
-       legacy::PassManagerBase &PM) { PM.add(new EncodeFunctionName()); });
+
+Pass* llvm::createEncodeFunctionName(){
+  return new EncodeFunctionName();
+}
